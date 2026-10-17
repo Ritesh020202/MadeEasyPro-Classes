@@ -33,7 +33,7 @@ const SITE_CONFIG = {
       subject: SUBJECTS.dc,
       title: "Sequential Logic & Counters",
       scheduledTime: "10:00",
-      vimeoId: "76979871",
+      vimeoId: "1236841381",
       description: "Flip-flops, counters and practical timing analysis.",
       available: true
     },
