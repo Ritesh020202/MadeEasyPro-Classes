@@ -1,615 +1,179 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="theme-color"
-    content="#090b10"
-  >
-
-  <title>MADE EASY - PRO</title>
-
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10151d">
+  <meta name="description" content="Made Easy - Pro online classroom for focused engineering preparation.">
+  <title>Made Easy - Pro | Online Classroom</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
-
-
 <body>
-
-  <!-- =====================================================
-       BACKGROUND
-  ====================================================== -->
-
-  <div class="ambient ambient-one"></div>
-  <div class="ambient ambient-two"></div>
-
-
-  <!-- =====================================================
-       TOP BAR
-  ====================================================== -->
-
-  <header class="topbar">
-
-    <div class="brand">
-
-      <img
-        src="assets/logo.png"
-        class="made-easy-logo"
-        alt="MADE EASY"
-        onerror="this.style.display='none'"
-      >
-
-      <div class="brand-text">
-
-        <div class="brand-name">
-          MADE <span>EASY</span> - PRO
-        </div>
-
-        <div class="brand-sub">
-          GATE • ENGINEERING • PREPARATION
-        </div>
-
-      </div>
-
+  <div class="top-strip">
+    <span><span class="status-dot live-dot"></span> YOUR ONLINE CLASSROOM</span>
+    <div class="clock">
+      <span id="clockDay">Loading date…</span>
+      <strong id="clockTime">--:--:--</strong>
     </div>
-
-
-    <nav class="main-nav">
-
-      <button
-        class="nav-item active"
-        data-section="home"
-        type="button"
-      >
-        Home
-      </button>
-
-      <button
-        class="nav-item"
-        data-section="classes"
-        type="button"
-      >
-        Classes
-      </button>
-
-      <button
-        class="nav-item"
-        data-section="schedule"
-        type="button"
-      >
-        Schedule
-      </button>
-
-      <button
-        class="nav-item cpq-nav"
-        id="cpqOpen"
-        type="button"
-      >
-        CPQ
-      </button>
-
-    </nav>
-
-
-    <div class="top-actions">
-
-      <div class="digital-clock">
-
-        <div
-          id="clockDay"
-          class="clock-day"
-        >
-          —
-        </div>
-
-        <div
-          id="clockTime"
-          class="clock-time"
-        >
-          —
-        </div>
-
-      </div>
-
-
-      <button
-        id="themeToggle"
-        class="theme-toggle"
-        type="button"
-        title="Toggle theme"
-      >
-        ☾
-      </button>
-
-    </div>
-
-  </header>
-
-
-
-  <!-- =====================================================
-       MAIN
-  ====================================================== -->
-
-  <main class="main-container">
-
-
-    <!-- ===================================================
-         HOME
-    ==================================================== -->
-
-    <section
-      id="home"
-      class="content-section"
-    >
-
-      <div class="hero">
-
-        <div class="hero-content">
-
-          <div class="eyebrow">
-            <span class="pulse-dot"></span>
-            YOUR DAILY PREPARATION
-          </div>
-
-
-          <h1>
-            Learn.
-            <em>Practice.</em>
-            Master.
-          </h1>
-
-
-          <p>
-            Your focused preparation dashboard for
-            lectures, scheduled classes and CPQ practice.
-            Stay consistent and keep moving forward.
-          </p>
-
-
-          <div class="hero-actions">
-
-            <button
-              id="continueBtn"
-              class="primary-btn"
-              type="button"
-            >
-              Continue Learning →
-            </button>
-
-            <button
-              id="heroCpq"
-              class="secondary-btn"
-              type="button"
-            >
-              Practice CPQ
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <div class="hero-stat-card">
-
-          <div class="stat-label">
-            TODAY
-          </div>
-
-          <div
-            id="heroDate"
-            class="stat-date"
-          >
-            —
-          </div>
-
-          <div class="stat-divider"></div>
-
-
-          <div class="stat-row">
-            <span>Classes</span>
-            <strong id="classCount">0</strong>
-          </div>
-
-
-          <div class="stat-row">
-            <span>Available</span>
-            <strong id="availableCount">0</strong>
-          </div>
-
-
-          <div class="stat-row">
-            <span>Next class</span>
-            <strong id="nextClass">—</strong>
-          </div>
-
-        </div>
-
-      </div>
-
-
-
-      <!-- FEATURED -->
-
-      <div class="section-heading">
-
-        <div>
-
-          <div class="section-kicker">
-            LIVE CLASSROOM
-          </div>
-
-          <h2>
-            Continue your preparation
-          </h2>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="featuredGrid"
-        class="featured-grid"
-      ></div>
-
-
-
-      <!-- CLASS LIST -->
-
-      <div class="section-heading compact">
-
-        <div>
-
-          <div class="section-kicker">
-            TODAY'S CLASSES
-          </div>
-
-          <h2>
-            Your classes
-          </h2>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="classGrid"
-        class="class-grid"
-      ></div>
-
-
-    </section>
-
-
-
-    <!-- ===================================================
-         CLASSES
-    ==================================================== -->
-
-    <section
-      id="classes"
-      class="content-section hidden"
-    >
-
-      <div class="section-heading">
-
-        <div>
-
-          <div class="section-kicker">
-            CLASSROOM
-          </div>
-
-          <h2>
-            All Classes
-          </h2>
-
-          <p>
-            Access currently available and scheduled
-            sessions from one place.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="allClassGrid"
-        class="class-grid"
-      ></div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         SCHEDULE
-    ==================================================== -->
-
-    <section
-      id="schedule"
-      class="content-section hidden"
-    >
-
-      <div class="section-heading">
-
-        <div>
-
-          <div class="section-kicker">
-            DAILY PLAN
-          </div>
-
-          <h2>
-            Class Schedule
-          </h2>
-
-          <p>
-            Your lectures arranged according to their
-            scheduled time.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="scheduleList"
-        class="schedule-list"
-      ></div>
-
-    </section>
-
-  </main>
-
-
-
-  <!-- =====================================================
-       CPQ DRAWER
-  ====================================================== -->
-
-  <aside
-    id="cpqDrawer"
-    class="cpq-drawer"
-  >
-
-    <div class="drawer-header">
-
-      <div>
-
-        <div class="section-kicker">
-          PRACTICE
-        </div>
-
-        <h2>
-          CPQ
-        </h2>
-
-        <p>
-          Conceptual Practice Questions
-        </p>
-
-      </div>
-
-
-      <button
-        id="cpqClose"
-        class="close-btn"
-        type="button"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-    <div
-      id="cpqSubjects"
-      class="cpq-subjects"
-    ></div>
-
-  </aside>
-
-
-  <div
-    id="drawerBackdrop"
-    class="drawer-backdrop"
-  ></div>
-
-
-
-  <!-- =====================================================
-       VIDEO MODAL
-  ====================================================== -->
-
-  <div
-    id="videoModal"
-    class="video-modal"
-  >
-
-    <div class="modal-backdrop"></div>
-
-
-    <div class="video-modal-card">
-
-
-      <!-- VIDEO HEADER -->
-
-      <div class="video-header">
-
-        <div class="video-header-info">
-
-          <div
-            id="videoLiveBadge"
-            class="video-live-badge"
-          >
-            ● LIVE
-          </div>
-
-          <h2 id="videoTitle">
-            Class
-          </h2>
-
-          <p id="videoMeta">
-            —
-          </p>
-
-        </div>
-
-
-        <button
-          id="videoClose"
-          class="close-btn"
-          type="button"
-        >
-          ×
-        </button>
-
-      </div>
-
-
-
-      <!-- VIDEO -->
-
-      <div class="video-wrap">
-
-        <video
-          id="mainVideo"
-          playsinline
-          preload="metadata"
-        ></video>
-
-
-        <div
-          id="videoOverlay"
-          class="video-live-overlay"
-        >
-          <span>●</span>
-          LIVE
-        </div>
-
-
-        <!-- SEEK BAR -->
-
-        <div class="video-progress-container">
-
-          <input
-            id="videoProgress"
-            class="video-progress"
-            type="range"
-            min="0"
-            max="100"
-            value="0"
-            step="0.1"
-            title="Seek video"
-          >
-
-        </div>
-
-
-        <!-- CUSTOM CONTROLS -->
-
-        <div class="custom-video-controls">
-
-          <button
-            id="playPauseBtn"
-            class="video-control-btn"
-            type="button"
-            title="Play / Pause"
-          >
-            ▶
-          </button>
-
-
-          <button
-            id="muteBtn"
-            class="video-control-btn"
-            type="button"
-            title="Mute"
-          >
-            🔊
-          </button>
-
-
-          <input
-            id="volumeSlider"
-            class="volume-slider"
-            type="range"
-            min="0"
-            max="1"
-            step="0.05"
-            value="1"
-            title="Volume"
-          >
-
-
-          <div class="video-control-spacer"></div>
-
-
-          <button
-            id="fullscreenBtn"
-            class="video-control-btn"
-            type="button"
-            title="Fullscreen"
-          >
-            ⛶
-          </button>
-
-        </div>
-
-      </div>
-
-
-
-      <!-- VIDEO FOOTER -->
-
-      <div class="video-footer">
-
-        <span id="videoStatus">
-          Ready
-        </span>
-
-        <span>
-          Local classroom playback
-        </span>
-
-      </div>
-
-    </div>
-
   </div>
 
+  <header class="site-header">
+    <a class="brand" href="#" data-go="home" aria-label="Made Easy Pro home">
+      <img src="assets/logo.svg" alt="" class="brand-logo">
+      <span>
+        <strong>MADE EASY <em>— PRO</em></strong>
+        <small>DISCIPLINE. CONCEPTS. RESULTS.</small>
+      </span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <button class="nav-item active" data-section="home">Home</button>
+      <button class="nav-item" data-section="classes">Classes</button>
+      <button class="nav-item" data-section="schedule">Schedule</button>
+      <button class="nav-item" id="cpqOpen">CPQ Library</button>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode" title="Toggle theme">☾</button>
+  </header>
 
+  <main>
+    <section class="content-section" id="home">
+      <div class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> ENGINEERING EXCELLENCE, EVERY DAY</div>
+          <h1>Build your concepts.<br><span>Master your craft.</span></h1>
+          <p>A focused digital classroom for structured learning, revision, and consistent progress.</p>
+          <div class="hero-actions">
+            <button class="button button-primary" id="continueBtn">Continue learning <span>↗</span></button>
+            <button class="button button-quiet" id="heroCpq">Explore CPQ library</button>
+          </div>
+          <div class="hero-note"><span class="shield">✓</span> Your classes. Your pace. Your progress.</div>
+        </div>
+        <div class="hero-panel">
+          <div class="panel-top"><span>YOUR STUDY DESK</span><span class="panel-index">01 / DAILY</span></div>
+          <div class="panel-emblem">M<span>+</span></div>
+          <div class="panel-quote">“Consistency is a better strategy than intensity without direction.”</div>
+          <div class="panel-rule"></div>
+          <div class="panel-bottom"><span>LEARN WITH INTENTION</span><span>EST. 2026</span></div>
+          <div class="decorative-ring ring-one"></div>
+          <div class="decorative-ring ring-two"></div>
+        </div>
+      </div>
 
-  <!-- =====================================================
-       TOAST
-  ====================================================== -->
+      <div class="stats-grid" id="statsGrid">
+        <article class="stat-card"><span class="stat-label">TOTAL CLASSES</span><strong id="statTotal">—</strong><span class="stat-foot">Configured sessions</span></article>
+        <article class="stat-card"><span class="stat-label">AVAILABLE NOW</span><strong id="statAvailable">—</strong><span class="stat-foot">Ready to watch</span></article>
+        <article class="stat-card"><span class="stat-label">SUBJECTS</span><strong id="statSubjects">—</strong><span class="stat-foot">Across your curriculum</span></article>
+        <article class="stat-card"><span class="stat-label">TODAY'S PROGRESS</span><strong id="statProgress">0%</strong><span class="stat-foot">Session completion</span></article>
+      </div>
 
-  <div
-    id="toast"
-    class="toast"
-  ></div>
+      <div class="section-heading">
+        <div><div class="eyebrow">CURATED FOR YOU</div><h2>Featured classes</h2></div>
+        <button class="text-link" data-go="classes">View all classes <span>→</span></button>
+      </div>
+      <div class="featured-grid" id="featuredGrid"></div>
 
+      <div class="daily-card">
+        <div class="daily-icon">✓</div>
+        <div class="daily-copy">
+          <strong>Your daily commitment</strong>
+          <p id="dailyMessage">A little progress, every day.</p>
+        </div>
+        <label class="completion-control">
+          <input type="checkbox" id="dailyComplete">
+          <span class="custom-check"></span>
+          <span id="completionLabel">Mark today's session complete</span>
+        </label>
+      </div>
 
+      <div class="section-heading compact-heading">
+        <div><div class="eyebrow">KEEP YOUR MOMENTUM</div><h2>Recently added sessions</h2></div>
+      </div>
+      <div class="class-grid" id="classGrid"></div>
+    </section>
 
-  <!-- =====================================================
-       JAVASCRIPT
-  ====================================================== -->
+    <section class="content-section hidden" id="classes">
+      <div class="page-intro">
+        <div class="eyebrow">YOUR CURRICULUM</div>
+        <h1>Classroom</h1>
+        <p>Choose a subject, check the session status, and open an available class.</p>
+      </div>
+      <div class="filter-row">
+        <label class="search-box">
+          <span>⌕</span>
+          <input id="classSearch" type="search" placeholder="Search classes or subjects…">
+        </label>
+        <select id="subjectFilter" aria-label="Filter by subject">
+          <option value="all">All subjects</option>
+        </select>
+      </div>
+      <div class="class-grid" id="allClassGrid"></div>
+    </section>
 
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+    <section class="content-section hidden" id="schedule">
+      <div class="page-intro">
+        <div class="eyebrow">PLAN YOUR STUDY DAY</div>
+        <h1>Class schedule</h1>
+        <p>Class availability follows the scheduled time configured for each session.</p>
+      </div>
+      <div class="schedule-card">
+        <div class="schedule-header"><span>TIME</span><span>SESSION DETAILS</span><span>STATUS</span></div>
+        <div id="scheduleList"></div>
+      </div>
+      <p class="schedule-note">Times are shown in your browser's local time zone. Edit <code>config.js</code> to change class times and links.</p>
+    </section>
+  </main>
 
+  <footer class="site-footer">
+    <div class="footer-brand">MADE EASY <span>— PRO</span></div>
+    <p>Designed for focus. Built for consistency.</p>
+    <span>© <span id="yearNow"></span> MADE EASY — PRO</span>
+  </footer>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="cpq-drawer" id="cpqDrawer" aria-label="CPQ library" aria-hidden="true">
+    <div class="drawer-header">
+      <div><div class="eyebrow">STUDY RESOURCES</div><h2>CPQ Library</h2></div>
+      <button class="icon-button" id="cpqClose" aria-label="Close CPQ library">×</button>
+    </div>
+    <p class="drawer-description">Subject-wise practice question sets. Add your PDF files to the <code>cpq/</code> folder and configure their paths in <code>config.js</code>.</p>
+    <div id="cpqSubjects"></div>
+    <div class="drawer-foot">Practice deliberately. Review honestly.</div>
+  </aside>
+
+  <div class="modal-backdrop" id="videoModal" role="dialog" aria-modal="true" aria-labelledby="videoTitle">
+    <div class="video-dialog">
+      <div class="video-header">
+        <div>
+          <div class="eyebrow" id="videoStatus">RECORDED CLASSROOM</div>
+          <h2 id="videoTitle">Class title</h2>
+          <p id="videoMeta"></p>
+        </div>
+        <button class="icon-button" id="videoClose" aria-label="Close video">×</button>
+      </div>
+      <div class="video-frame" id="videoFrame">
+        <div class="video-placeholder" id="videoPlaceholder">
+          <div class="placeholder-symbol">▶</div>
+          <strong>Preparing your classroom</strong>
+          <span>If the video does not load, check its Vimeo ID and embedding permissions in config.js.</span>
+        </div>
+        <iframe id="mainVideo" title="Vimeo class video" src="about:blank" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <div class="video-progress-wrap" id="progressWrap">
+        <div class="video-progress-meta"><span>SESSION PROGRESS</span><span id="progressText">0%</span></div>
+        <div class="progress-track"><div id="videoProgress" class="progress-fill"></div></div>
+      </div>
+      <div class="video-footer">
+        <span id="videoFooterStatus">Recorded session • Watch at your pace</span>
+        <button class="button button-primary button-small" id="markWatched">Mark session complete ✓</button>
+      </div>
+      <p class="video-help">Playback is provided by Vimeo. The progress indicator is best-effort and may be unavailable for videos with restricted player permissions.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://player.vimeo.com/api/player.js"></script>
 </body>
-
 </html>
