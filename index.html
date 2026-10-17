@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#090b10"
+  >
+
+  <title>MADE EASY - PRO</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+</head>
+
+
+<body>
+
+  <!-- =====================================================
+       BACKGROUND
+  ====================================================== -->
+
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+
+  <!-- =====================================================
+       TOP BAR
+  ====================================================== -->
+
+  <header class="topbar">
+
+    <div class="brand">
+
+      <img
+        src="assets/logo.png"
+        class="made-easy-logo"
+        alt="MADE EASY"
+        onerror="this.style.display='none'"
+      >
+
+      <div class="brand-text">
+
+        <div class="brand-name">
+          MADE <span>EASY</span> - PRO
+        </div>
+
+        <div class="brand-sub">
+          GATE • ENGINEERING • PREPARATION
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <nav class="main-nav">
+
+      <button
+        class="nav-item active"
+        data-section="home"
+        type="button"
+      >
+        Home
+      </button>
+
+      <button
+        class="nav-item"
+        data-section="classes"
+        type="button"
+      >
+        Classes
+      </button>
+
+      <button
+        class="nav-item"
+        data-section="schedule"
+        type="button"
+      >
+        Schedule
+      </button>
+
+      <button
+        class="nav-item cpq-nav"
+        id="cpqOpen"
+        type="button"
+      >
+        CPQ
+      </button>
+
+    </nav>
+
+
+    <div class="top-actions">
+
+      <div class="digital-clock">
+
+        <div
+          id="clockDay"
+          class="clock-day"
+        >
+          —
+        </div>
+
+        <div
+          id="clockTime"
+          class="clock-time"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <button
+        id="themeToggle"
+        class="theme-toggle"
+        type="button"
+        title="Toggle theme"
+      >
+        ☾
+      </button>
+
+    </div>
+
+  </header>
+
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="main-container">
+
+
+    <!-- ===================================================
+         HOME
+    ==================================================== -->
+
+    <section
+      id="home"
+      class="content-section"
+    >
+
+      <div class="hero">
+
+        <div class="hero-content">
+
+          <div class="eyebrow">
+            <span class="pulse-dot"></span>
+            YOUR DAILY PREPARATION
+          </div>
+
+
+          <h1>
+            Learn.
+            <em>Practice.</em>
+            Master.
+          </h1>
+
+
+          <p>
+            Your focused preparation dashboard for
+            lectures, scheduled classes and CPQ practice.
+            Stay consistent and keep moving forward.
+          </p>
+
+
+          <div class="hero-actions">
+
+            <button
+              id="continueBtn"
+              class="primary-btn"
+              type="button"
+            >
+              Continue Learning →
+            </button>
+
+            <button
+              id="heroCpq"
+              class="secondary-btn"
+              type="button"
+            >
+              Practice CPQ
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="hero-stat-card">
+
+          <div class="stat-label">
+            TODAY
+          </div>
+
+          <div
+            id="heroDate"
+            class="stat-date"
+          >
+            —
+          </div>
+
+          <div class="stat-divider"></div>
+
+
+          <div class="stat-row">
+            <span>Classes</span>
+            <strong id="classCount">0</strong>
+          </div>
+
+
+          <div class="stat-row">
+            <span>Available</span>
+            <strong id="availableCount">0</strong>
+          </div>
+
+
+          <div class="stat-row">
+            <span>Next class</span>
+            <strong id="nextClass">—</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- FEATURED -->
+
+      <div class="section-heading">
+
+        <div>
+
+          <div class="section-kicker">
+            LIVE CLASSROOM
+          </div>
+
+          <h2>
+            Continue your preparation
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="featuredGrid"
+        class="featured-grid"
+      ></div>
+
+
+
+      <!-- CLASS LIST -->
+
+      <div class="section-heading compact">
+
+        <div>
+
+          <div class="section-kicker">
+            TODAY'S CLASSES
+          </div>
+
+          <h2>
+            Your classes
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="classGrid"
+        class="class-grid"
+      ></div>
+
+
+    </section>
+
+
+
+    <!-- ===================================================
+         CLASSES
+    ==================================================== -->
+
+    <section
+      id="classes"
+      class="content-section hidden"
+    >
+
+      <div class="section-heading">
+
+        <div>
+
+          <div class="section-kicker">
+            CLASSROOM
+          </div>
+
+          <h2>
+            All Classes
+          </h2>
+
+          <p>
+            Access currently available and scheduled
+            sessions from one place.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="allClassGrid"
+        class="class-grid"
+      ></div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCHEDULE
+    ==================================================== -->
+
+    <section
+      id="schedule"
+      class="content-section hidden"
+    >
+
+      <div class="section-heading">
+
+        <div>
+
+          <div class="section-kicker">
+            DAILY PLAN
+          </div>
+
+          <h2>
+            Class Schedule
+          </h2>
+
+          <p>
+            Your lectures arranged according to their
+            scheduled time.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="scheduleList"
+        class="schedule-list"
+      ></div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =====================================================
+       CPQ DRAWER
+  ====================================================== -->
+
+  <aside
+    id="cpqDrawer"
+    class="cpq-drawer"
+  >
+
+    <div class="drawer-header">
+
+      <div>
+
+        <div class="section-kicker">
+          PRACTICE
+        </div>
+
+        <h2>
+          CPQ
+        </h2>
+
+        <p>
+          Conceptual Practice Questions
+        </p>
+
+      </div>
+
+
+      <button
+        id="cpqClose"
+        class="close-btn"
+        type="button"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div
+      id="cpqSubjects"
+      class="cpq-subjects"
+    ></div>
+
+  </aside>
+
+
+  <div
+    id="drawerBackdrop"
+    class="drawer-backdrop"
+  ></div>
+
+
+
+  <!-- =====================================================
+       VIDEO MODAL
+  ====================================================== -->
+
+  <div
+    id="videoModal"
+    class="video-modal"
+  >
+
+    <div class="modal-backdrop"></div>
+
+
+    <div class="video-modal-card">
+
+
+      <!-- VIDEO HEADER -->
+
+      <div class="video-header">
+
+        <div class="video-header-info">
+
+          <div
+            id="videoLiveBadge"
+            class="video-live-badge"
+          >
+            ● LIVE
+          </div>
+
+          <h2 id="videoTitle">
+            Class
+          </h2>
+
+          <p id="videoMeta">
+            —
+          </p>
+
+        </div>
+
+
+        <button
+          id="videoClose"
+          class="close-btn"
+          type="button"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <!-- VIDEO -->
+
+      <div class="video-wrap">
+
+        <video
+          id="mainVideo"
+          playsinline
+          preload="metadata"
+        ></video>
+
+
+        <div
+          id="videoOverlay"
+          class="video-live-overlay"
+        >
+          <span>●</span>
+          LIVE
+        </div>
+
+
+        <!-- SEEK BAR -->
+
+        <div class="video-progress-container">
+
+          <input
+            id="videoProgress"
+            class="video-progress"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+            step="0.1"
+            title="Seek video"
+          >
+
+        </div>
+
+
+        <!-- CUSTOM CONTROLS -->
+
+        <div class="custom-video-controls">
+
+          <button
+            id="playPauseBtn"
+            class="video-control-btn"
+            type="button"
+            title="Play / Pause"
+          >
+            ▶
+          </button>
+
+
+          <button
+            id="muteBtn"
+            class="video-control-btn"
+            type="button"
+            title="Mute"
+          >
+            🔊
+          </button>
+
+
+          <input
+            id="volumeSlider"
+            class="volume-slider"
+            type="range"
+            min="0"
+            max="1"
+            step="0.05"
+            value="1"
+            title="Volume"
+          >
+
+
+          <div class="video-control-spacer"></div>
+
+
+          <button
+            id="fullscreenBtn"
+            class="video-control-btn"
+            type="button"
+            title="Fullscreen"
+          >
+            ⛶
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- VIDEO FOOTER -->
+
+      <div class="video-footer">
+
+        <span id="videoStatus">
+          Ready
+        </span>
+
+        <span>
+          Local classroom playback
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       TOAST
+  ====================================================== -->
+
+  <div
+    id="toast"
+    class="toast"
+  ></div>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+
+</body>
+
+</html>
