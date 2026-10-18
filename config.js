@@ -1,158 +1,77 @@
 
-/*
-  MADE EASY — PRO | SITE CONFIGURATION
+"use strict";
 
-  Vimeo:
-  For https://vimeo.com/123456789, use vimeoId: "123456789".
-  Configure Vimeo privacy so your GitHub Pages domain can embed the video.
+window.APP_CONFIG = {
+  instituteName: "MADE EASY",
+  timeZone: "Asia/Kolkata",
 
-  CPQ:
-  Upload PDF files into the cpq/ folder and use their relative paths.
-*/
-
-const SUBJECTS = {
-  edc: "Electronic Devices & Circuits",
-  ss: "Signals & Systems",
-  nt: "Network Theory",
-  dc: "Digital Circuits",
-  ae: "Analog Electronics",
-  math: "Engineering Mathematics",
-  apti: "General Aptitude",
-  emft: "Electromagnetic Fields & Transmission Lines",
-  comm: "Communication Systems",
-  cs: "Control Systems"
-};
-
-const SITE_CONFIG = {
-  instituteName: "MADE EASY — PRO",
+  subjects: [
+    { id: "edc", name: "Electronic Devices & Circuits", shortName: "EDC" },
+    { id: "ss", name: "Signals & Systems", shortName: "Signals & Systems" },
+    { id: "nt", name: "Network Theory", shortName: "Network Theory" },
+    { id: "dc", name: "Digital Circuits", shortName: "Digital Circuits" },
+    { id: "ae", name: "Analog Electronics", shortName: "Analog Electronics" },
+    { id: "math", name: "Engineering Mathematics", shortName: "Mathematics" },
+    { id: "aptitude", name: "General Aptitude", shortName: "Aptitude" },
+    { id: "emft", name: "Electromagnetic Fields", shortName: "EMFT" },
+    { id: "comm", name: "Communication Systems", shortName: "Communication" },
+    { id: "control", name: "Control Systems", shortName: "Control Systems" }
+  ],
 
   classes: [
     {
       id: "dc-01",
       subjectId: "dc",
-      subject: SUBJECTS.dc,
-      title: "Sequential Logic & Counters",
-      scheduledTime: "10:00",
-      vimeoId: "1236841381",
-      description: "Flip-flops, counters and practical timing analysis.",
+      title: "Mathematics 12",
+      description: "Calculus Class 03",
+      scheduledTime: "11:00",
+      vimeoId: "1237038856",
       available: true
     },
-    {
-      id: "nt-01",
-      subjectId: "nt",
-      subject: SUBJECTS.nt,
-      title: "Network Theorems — Part 01",
-      scheduledTime: "14:00",
-      vimeoId: "",
-      description: "A focused session covering important network theorems.",
-      available: true
-    },
-    {
-      id: "ss-01",
-      subjectId: "ss",
-      subject: SUBJECTS.ss,
-      title: "Fourier Transform",
-      scheduledTime: "18:00",
-      vimeoId: "",
-      description: "Frequency-domain representation and applications.",
-      available: false
-    },
-    {
-      id: "cs-01",
-      subjectId: "cs",
-      subject: SUBJECTS.cs,
-      title: "Time Response Analysis",
-      scheduledTime: "20:00",
-      vimeoId: "",
-      description: "Transient response, steady-state error and specifications.",
-      available: false
-    },
-    {
-      id: "edc-01",
-      subjectId: "edc",
-      subject: SUBJECTS.edc,
-      title: "Semiconductor Diodes",
-      scheduledTime: "16:00",
-      vimeoId: "",
-      description: "PN junction fundamentals, biasing and applications.",
-      available: false
-    },
-    {
-      id: "math-01",
-      subjectId: "math",
-      subject: SUBJECTS.math,
-      title: "Differential Equations",
-      scheduledTime: "19:00",
-      vimeoId: "",
-      description: "A structured revision session on core methods.",
-      available: false
-    }
   ],
 
-  cpq: [
+  cpqResources: [
     {
+      id: "cpq-dc",
       subjectId: "dc",
-      subject: SUBJECTS.dc,
-      sets: [
-        {
-          name: "CPQ 01 — Number Systems",
-          pdf: "cpq/digital-circuits-cpq01.pdf"
-        },
-        {
-          name: "CPQ 02 — Combinational Logic",
-          pdf: "cpq/digital-circuits-cpq02.pdf"
-        }
-      ]
+      title: "Digital Circuits",
+      description: "Practice questions",
+      file: "cpq/digital-circuits-cpq01.pdf"
     },
     {
+      id: "cpq-edc",
       subjectId: "edc",
-      subject: SUBJECTS.edc,
-      sets: [
-        {
-          name: "CPQ 01 — Diodes",
-          pdf: "cpq/edc-cpq01.pdf"
-        }
-      ]
+      title: "Electronic Devices & Circuits",
+      description: "Practice questions",
+      file: "cpq/edc-cpq01.pdf"
     },
     {
+      id: "cpq-nt",
       subjectId: "nt",
-      subject: SUBJECTS.nt,
-      sets: [
-        {
-          name: "CPQ 01 — Network Theorems",
-          pdf: "cpq/nt-cpq01.pdf"
-        }
-      ]
+      title: "Network Theory",
+      description: "Practice questions",
+      file: "cpq/nt-cpq01.pdf"
     },
     {
+      id: "cpq-ss",
       subjectId: "ss",
-      subject: SUBJECTS.ss,
-      sets: [
-        {
-          name: "CPQ 01 — Fourier & Laplace",
-          pdf: "cpq/ss-cpq01.pdf"
-        }
-      ]
+      title: "Signals & Systems",
+      description: "Practice questions",
+      file: "cpq/signals-systems-cpq01.pdf"
     },
     {
+      id: "cpq-math",
       subjectId: "math",
-      subject: SUBJECTS.math,
-      sets: [
-        {
-          name: "CPQ 01 — Calculus",
-          pdf: "cpq/math-cpq01.pdf"
-        }
-      ]
+      title: "Engineering Mathematics",
+      description: "Practice questions",
+      file: "cpq/mathematics-cpq01.pdf"
     },
     {
-      subjectId: "comm",
-      subject: SUBJECTS.comm,
-      sets: [
-        {
-          name: "CPQ 01 — Analog Modulation",
-          pdf: "cpq/comm-cpq01.pdf"
-        }
-      ]
+      id: "cpq-ae",
+      subjectId: "ae",
+      title: "Analog Electronics",
+      description: "Practice questions",
+      file: "cpq/analog-electronics-cpq01.pdf"
     }
   ]
 };
