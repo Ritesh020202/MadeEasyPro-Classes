@@ -403,19 +403,13 @@
 
     // controls=0 requests that Vimeo hide its standard controls.
     const videoUrl =
-      `https://player.vimeo.com/video/${encodeURIComponent(item.vimeoId)}` +
-      "?title=0&byline=0&portrait=0&controls=0&dnt=1";
+  `https://player.vimeo.com/video/${encodeURIComponent(item.vimeoId)}` +
+  "?title=0&byline=0&portrait=0&dnt=1";
 
-    el.video.src = videoUrl;
+el.video.src = videoUrl;
 
-    if (!window.Vimeo || !window.Vimeo.Player) {
-      el.loading.classList.add("hidden");
-      el.sessionStatus.textContent = "CLASSROOM";
-      updateLiveBadge();
-      return;
-    }
 
-    player = new window.Vimeo.Player(el.video);
+    
 
     player.on("loaded", () => {
       el.loading.classList.add("hidden");
