@@ -13,23 +13,17 @@
   const TZ = config.timeZone || "Asia/Kolkata";
   const PREFIX = "madeEasyPortal";
 
-  // DOM elements
-  // IMPORTANT: classListElement is the schedule-list element.
-  // Do not name this property classList, because that conflicts
-  // with the browser's built-in element.classList property.
   const el = {
     clock: $("#digitalClock"),
     date: $("#currentDate"),
     themeToggle: $("#themeToggle"),
     themeIcon: $("#themeIcon"),
-
     total: $("#totalClasses"),
     available: $("#availableClasses"),
     completed: $("#completedClasses"),
     progressPercent: $("#progressPercent"),
     overallProgress: $("#overallProgressBar"),
     todayFocus: $("#todayFocus"),
-
     playerHeading: $("#playerHeading"),
     sessionStatus: $("#sessionStatus"),
     placeholder: $("#playerPlaceholder"),
@@ -42,25 +36,24 @@
     completeButton: $("#completeSessionButton"),
     playerMessage: $("#playerMessage"),
     completionNotice: $("#completionNoticeText"),
-
     search: $("#classSearch"),
     subjectFilter: $("#subjectFilter"),
     statusFilter: $("#statusFilter"),
+
+    // FIX: Avoid naming this property "classList".
     classListElement: $("#classList"),
+
     scheduleCount: $("#scheduleCount"),
     emptySchedule: $("#emptySchedule"),
-
     dailyPercent: $("#dailyPercent"),
     dailyRing: $("#dailyRingProgress"),
     dailyMessage: $("#dailyMessage"),
     dailyCheckbox: $("#dailyCompletionCheckbox"),
     resetDaily: $("#resetDailyButton"),
-
     cpqList: $("#cpqList"),
     toast: $("#toast")
   };
 
-  // Check that essential HTML elements exist.
   const requiredElements = [
     "clock",
     "date",
@@ -75,15 +68,10 @@
     "cpqList"
   ];
 
-  const missingElements = requiredElements.filter(
-    (key) => !el[key]
-  );
+  const missingElements = requiredElements.filter((key) => !el[key]);
 
   if (missingElements.length) {
-    console.error(
-      "Missing HTML elements. Check index.html:",
-      missingElements
-    );
+    console.error("Missing HTML elements:", missingElements);
     return;
   }
 
@@ -100,9 +88,7 @@
     theme: loadJSON(`${PREFIX}:theme`, "dark")
   };
 
-  // --------------------------------------------------
-  // Local storage
-  // --------------------------------------------------
+  // STORAGE
 
   function loadJSON(key, fallback) {
     try {
@@ -122,9 +108,7 @@
     }
   }
 
-  // --------------------------------------------------
-  // General helpers
-  // --------------------------------------------------
+  // HELPERS
 
   function escapeHTML(value) {
     return String(value ?? "").replace(/[&<>"']/g, (character) => ({
@@ -156,13 +140,13 @@
   }
 
   function getDateKey() {
-    const parts = zonedParts();
-    return `${parts.year}-${parts.month}-${parts.day}`;
+    const p = zonedParts();
+    return `${p.year}-${p.month}-${p.day}`;
   }
 
   function getCurrentMinutes() {
-    const parts = zonedParts();
-    return Number(parts.hour) * 60 + Number(parts.minute);
+    const p = zonedParts();
+    return Number(p.hour) * 60 + Number(p.minute);
   }
 
   function getScheduledMinutes(time) {
@@ -171,15 +155,11 @@
   }
 
   function getSubject(subjectId) {
-    return config.subjects.find(
-      (subject) => subject.id === subjectId
-    );
+    return config.subjects.find((s) => s.id === subjectId);
   }
 
   function getClass(classId) {
-    return config.classes.find(
-      (item) => item.id === classId
-    );
+    return config.classes.find((item) => item.id === classId);
   }
 
   function isCompleted(classId) {
@@ -188,10 +168,7 @@
 
   function getClassStatus(item) {
     if (isCompleted(item.id)) return "completed";
-
-    if (!item.available || !item.vimeoId) {
-      return "unavailable";
-    }
+    if (!item.available || !item.vimeoId) return "unavailable";
 
     return getCurrentMinutes() < getScheduledMinutes(item.scheduledTime)
       ? "scheduled"
@@ -201,7 +178,6 @@
   function formatTime(time) {
     const [hours, minutes] = time.split(":").map(Number);
     const date = new Date();
-
     date.setUTCHours(hours, minutes, 0, 0);
 
     return new Intl.DateTimeFormat("en-IN", {
@@ -211,9 +187,7 @@
     }).format(date);
   }
 
-  // --------------------------------------------------
-  // Clock and automatic refresh
-  // --------------------------------------------------
+  // CLOCK
 
   function updateClock() {
     const now = new Date();
@@ -234,21 +208,12 @@
       year: "numeric"
     }).format(now);
 
-    const currentDateKey = getDateKey();
+    const newDateKey = getDateKey();
 
-    if (currentDateKey !== todayKey) {
-      todayKey = currentDateKey;
-
-      state.completed = loadJSON(
-        `${PREFIX}:completed:${todayKey}`,
-        []
-      );
-
-      state.dailyDone = loadJSON(
-        `${PREFIX}:dailyDone:${todayKey}`,
-        false
-      );
-
+    if (newDateKey !== todayKey) {
+      todayKey = newDateKey;
+      state.completed = loadJSON(`${PREFIX}:completed:${todayKey}`, []);
+      state.dailyDone = loadJSON(`${PREFIX}:dailyDone:${todayKey}`, false);
       selectedClassId = null;
       resetPlayer();
       renderClasses();
@@ -260,22 +225,17 @@
     updateLiveBadge();
   }
 
-  // --------------------------------------------------
-  // Subject filter
-  // --------------------------------------------------
+  // SUBJECT FILTER
 
   function populateSubjectFilter() {
     el.subjectFilter.innerHTML =
       '<option value="all">All subjects</option>' +
       config.subjects.map((subject) =>
-        `<option value="${escapeHTML(subject.id)}">` +
-        `${escapeHTML(subject.name)}</option>`
+        `<option value="${escapeHTML(subject.id)}">${escapeHTML(subject.name)}</option>`
       ).join("");
   }
 
-  // --------------------------------------------------
-  // Class schedule
-  // --------------------------------------------------
+  // CLASS SCHEDULE
 
   function renderClasses() {
     const searchTerm = el.search.value.trim().toLowerCase();
@@ -303,10 +263,7 @@
     el.scheduleCount.textContent =
       `${filtered.length} ${filtered.length === 1 ? "CLASS" : "CLASSES"}`;
 
-    el.emptySchedule.classList.toggle(
-      "hidden",
-      filtered.length > 0
-    );
+    el.emptySchedule.classList.toggle("hidden", filtered.length > 0);
 
     el.classListElement.innerHTML = filtered.map((item) => {
       const subject = getSubject(item.subjectId);
@@ -328,8 +285,7 @@
       }[status];
 
       const disabled =
-        status === "scheduled" ||
-        status === "unavailable";
+        status === "scheduled" || status === "unavailable";
 
       return `
         <article class="class-card ${selected ? "selected" : ""} ${status}">
@@ -341,7 +297,6 @@
           <div class="class-details">
             <h3>${escapeHTML(item.title)}</h3>
             <p>${escapeHTML(item.description)}</p>
-
             <span class="class-status status-${status}">
               <span class="status-dot"></span>${statusText}
             </span>
@@ -360,9 +315,7 @@
     }).join("");
   }
 
-  // --------------------------------------------------
-  // Statistics and daily progress
-  // --------------------------------------------------
+  // STATISTICS
 
   function updateStats() {
     const total = config.classes.length;
@@ -393,73 +346,48 @@
     if (state.dailyDone) {
       el.dailyMessage.textContent =
         "Well done! You've completed your study for today.";
-
       el.todayFocus.textContent = "Daily goal achieved";
     } else if (completed > 0) {
       el.dailyMessage.textContent =
         "Good start. Keep going with your next session.";
-
       el.todayFocus.textContent = "Keep the momentum";
     } else {
-      el.dailyMessage.textContent =
-        "Start your first session today.";
-
+      el.dailyMessage.textContent = "Start your first session today.";
       el.todayFocus.textContent = "Stay consistent";
     }
 
-    if (el.dailyCheckbox) {
-      el.dailyCheckbox.checked = state.dailyDone;
-    }
+    el.dailyCheckbox.checked = state.dailyDone;
 
-    if (el.completionNotice) {
-      el.completionNotice.textContent = state.dailyDone
-        ? "Today's study has been marked complete on this device."
-        : "Your progress is saved on this device.";
-    }
+    el.completionNotice.textContent = state.dailyDone
+      ? "Today's study has been marked complete on this device."
+      : "Your progress is saved on this device.";
   }
 
-  // --------------------------------------------------
-  // Notifications
-  // --------------------------------------------------
+  // NOTIFICATIONS
 
   function showToast(message) {
-    if (!el.toast) {
-      console.log(message);
-      return;
-    }
-
     el.toast.textContent = message;
     el.toast.classList.add("show");
 
     clearTimeout(toastTimer);
-
     toastTimer = setTimeout(() => {
       el.toast.classList.remove("show");
     }, 2800);
   }
 
   function showPlayerMessage(message, duration = 8000) {
-    if (!el.playerMessage) {
-      console.error(message);
-      return;
-    }
-
     el.playerMessage.textContent = message;
     el.playerMessage.classList.remove("hidden");
 
     clearTimeout(messageTimer);
-
     messageTimer = setTimeout(() => {
       el.playerMessage.classList.add("hidden");
     }, duration);
   }
 
-  // --------------------------------------------------
-  // Vimeo player cleanup
-  // --------------------------------------------------
+  // PLAYER CLEANUP
 
   function resetPlayer() {
-    // Invalidate pending events from an older player.
     playerGeneration++;
 
     if (player) {
@@ -473,24 +401,15 @@
     }
 
     player = null;
-
-    if (el.video) {
-      el.video.src = "about:blank";
-    }
-
+    el.video.src = "about:blank";
     el.videoContainer.classList.add("hidden");
     el.placeholder.classList.remove("hidden");
     el.loading.classList.add("hidden");
-    el.liveBadge?.classList.add("hidden");
-
-    if (el.playerMessage) {
-      el.playerMessage.classList.add("hidden");
-    }
+    el.liveBadge.classList.add("hidden");
+    el.playerMessage.classList.add("hidden");
   }
 
-  // --------------------------------------------------
-  // LIVE NOW indicator
-  // --------------------------------------------------
+  // LIVE INDICATOR
 
   function updateLiveBadge() {
     const item = selectedClassId
@@ -504,20 +423,14 @@
       !el.videoContainer.classList.contains("hidden")
     );
 
-    el.liveBadge?.classList.toggle("hidden", !isLive);
+    el.liveBadge.classList.toggle("hidden", !isLive);
   }
 
-  // --------------------------------------------------
-  // Open Vimeo class
-  // --------------------------------------------------
+  // OPEN CLASS - VIMEO PLAYER
 
   async function openVideo(classId) {
     const item = getClass(classId);
-
-    if (!item) {
-      showToast("Class not found. Check config.js.");
-      return;
-    }
+    if (!item) return;
 
     const status = getClassStatus(item);
 
@@ -545,16 +458,14 @@
     selectedClassId = item.id;
     renderClasses();
 
-    const currentGeneration = ++playerGeneration;
-
+    const generation = ++playerGeneration;
     const subject = getSubject(item.subjectId);
 
     el.playerHeading.textContent = item.title;
     el.videoTitle.textContent = item.title;
 
     el.videoMeta.textContent =
-      `${subject ? subject.name : "Class"} · ` +
-      `${formatTime(item.scheduledTime)} IST`;
+      `${subject ? subject.name : "Class"} · ${formatTime(item.scheduledTime)} IST`;
 
     el.sessionStatus.textContent = "OPENING CLASS";
     el.sessionStatus.className = "status-pill status-opening";
@@ -567,14 +478,10 @@
     el.placeholder.classList.add("hidden");
     el.videoContainer.classList.remove("hidden");
     el.loading.classList.remove("hidden");
-
-    if (el.playerMessage) {
-      el.playerMessage.classList.add("hidden");
-    }
+    el.playerMessage.classList.add("hidden");
 
     updateLiveBadge();
 
-    // Destroy the previous player before opening another class.
     if (player) {
       const oldPlayer = player;
       player = null;
@@ -582,35 +489,28 @@
       try {
         await oldPlayer.destroy();
       } catch (error) {
-        console.warn("Previous player cleanup:", error);
+        console.warn("Player cleanup:", error);
       }
     }
 
-    // Another class may have been selected while cleanup was running.
-    if (currentGeneration !== playerGeneration) {
-      return;
-    }
+    if (generation !== playerGeneration) return;
 
-    // Keep standard Vimeo controls enabled so the student can play,
-    // pause, and seek if the video's permissions allow those actions.
+    // Hide the progress bar while keeping normal playback controls.
+    // Vimeo may still display duration information depending on
+    // its player settings and embedding permissions.
     const videoUrl =
       `https://player.vimeo.com/video/${encodeURIComponent(item.vimeoId)}` +
-      "?title=0&byline=0&portrait=0&dnt=1";
+      "?title=0&byline=0&portrait=0&progress_bar=0&dnt=1";
 
     el.video.src = videoUrl;
 
-    // The iframe can still load without the SDK, but we won't have
-    // player event handling or reliable ready/error notifications.
     if (!window.Vimeo || !window.Vimeo.Player) {
       el.loading.classList.add("hidden");
-
       el.sessionStatus.textContent = "CLASSROOM";
       el.sessionStatus.className = "status-pill";
 
       showPlayerMessage(
-        "The Vimeo Player SDK was not found. Check that " +
-        "https://player.vimeo.com/api/player.js is loaded in index.html. " +
-        "The video may still load inside the player."
+        "Vimeo Player SDK not found. Check the Vimeo SDK script in index.html."
       );
 
       updateLiveBadge();
@@ -622,57 +522,54 @@
       player = newPlayer;
 
       newPlayer.on("loaded", () => {
-        if (currentGeneration !== playerGeneration) return;
+        if (generation !== playerGeneration) return;
 
         el.loading.classList.add("hidden");
         el.sessionStatus.textContent = "CLASS READY";
         el.sessionStatus.className = "status-pill status-available";
-
         updateLiveBadge();
       });
 
       newPlayer.on("play", () => {
-        if (currentGeneration !== playerGeneration) return;
+        if (generation !== playerGeneration) return;
 
         el.loading.classList.add("hidden");
         el.sessionStatus.textContent = "IN SESSION";
         el.sessionStatus.className = "status-pill status-available";
-
         updateLiveBadge();
       });
 
       newPlayer.on("pause", () => {
-        if (currentGeneration !== playerGeneration) return;
+        if (generation !== playerGeneration) return;
 
         el.sessionStatus.textContent = "PAUSED";
         el.sessionStatus.className = "status-pill";
       });
 
       newPlayer.on("ended", () => {
-        if (currentGeneration !== playerGeneration) return;
+        if (generation !== playerGeneration) return;
 
         el.sessionStatus.textContent = "SESSION ENDED";
         el.sessionStatus.className = "status-pill";
       });
 
       newPlayer.on("error", (error) => {
-        if (currentGeneration !== playerGeneration) return;
+        if (generation !== playerGeneration) return;
 
-        console.error("Vimeo Player error:", error);
+        console.error("Vimeo player error:", error);
 
         el.loading.classList.add("hidden");
         el.sessionStatus.textContent = "PLAYER ERROR";
         el.sessionStatus.className = "status-pill status-error";
 
         showPlayerMessage(
-          "The video could not be loaded. Check the Vimeo ID, " +
-          "video privacy settings, and embedding permissions."
+          "The video could not load. Check the Vimeo ID, privacy settings, and embedding permissions."
         );
       });
 
       await newPlayer.ready();
 
-      if (currentGeneration !== playerGeneration) return;
+      if (generation !== playerGeneration) return;
 
       el.loading.classList.add("hidden");
       el.sessionStatus.textContent = "CLASS READY";
@@ -680,7 +577,7 @@
 
       updateLiveBadge();
     } catch (error) {
-      if (currentGeneration !== playerGeneration) return;
+      if (generation !== playerGeneration) return;
 
       console.error("Could not initialize Vimeo player:", error);
 
@@ -689,16 +586,12 @@
       el.sessionStatus.className = "status-pill status-error";
 
       showPlayerMessage(
-        "The Vimeo player could not initialize. Check that the video " +
-        "exists, allows embedding, and is accessible from this website. " +
-        "Open the browser console for details."
+        "Check that the Vimeo video exists and allows embedding on your website."
       );
     }
   }
 
-  // --------------------------------------------------
-  // Mark a class complete
-  // --------------------------------------------------
+  // MARK CLASS COMPLETE
 
   function markSelectedClassComplete() {
     if (!selectedClassId) {
@@ -726,9 +619,7 @@
     showToast("Session marked complete. Keep it up!");
   }
 
-  // --------------------------------------------------
-  // Daily completion checkbox
-  // --------------------------------------------------
+  // DAILY COMPLETION
 
   function setDailyCompletion(done) {
     state.dailyDone = done;
@@ -742,11 +633,8 @@
       resetPlayer();
       selectedClassId = null;
 
-      el.playerHeading.textContent =
-        "Today's study is complete";
-
+      el.playerHeading.textContent = "Today's study is complete";
       el.videoTitle.textContent = "Great work today!";
-
       el.videoMeta.textContent =
         "Come back tomorrow to continue your progress.";
 
@@ -759,18 +647,16 @@
 
       showToast("Today's study has been marked complete.");
     } else {
+      resetPlayer();
+
       el.playerHeading.textContent = "Your learning session";
       el.videoTitle.textContent = "No class selected";
-
-      el.videoMeta.textContent =
-        "Choose a class from the schedule.";
+      el.videoMeta.textContent = "Choose a class from the schedule.";
 
       el.sessionStatus.textContent = "SELECT A CLASS";
       el.sessionStatus.className = "status-pill";
 
       el.completeButton.disabled = true;
-
-      resetPlayer();
 
       showToast("Daily completion has been reset.");
     }
@@ -780,75 +666,55 @@
     updateLiveBadge();
   }
 
-  // --------------------------------------------------
-  // CPQ PDF resources
-  // --------------------------------------------------
+  // CPQ RESOURCES
 
   function renderCPQ() {
     el.cpqList.innerHTML = config.cpqResources.map((resource) => `
-      <a
-        class="cpq-item"
-        href="${escapeHTML(resource.file)}"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a class="cpq-item"
+         href="${escapeHTML(resource.file)}"
+         target="_blank"
+         rel="noopener noreferrer">
         <span class="pdf-icon">PDF</span>
-
         <span class="cpq-copy">
           <strong>${escapeHTML(resource.title)}</strong>
           <small>${escapeHTML(resource.description)}</small>
         </span>
-
         <span class="cpq-arrow" aria-hidden="true">↗</span>
       </a>
     `).join("");
   }
 
-  // --------------------------------------------------
-  // Dark / light theme
-  // --------------------------------------------------
+  // THEME
 
   function applyTheme(theme) {
     state.theme = theme === "light" ? "light" : "dark";
 
     document.documentElement.dataset.theme = state.theme;
+    el.themeIcon.textContent = state.theme === "dark" ? "☼" : "☾";
 
-    if (el.themeIcon) {
-      el.themeIcon.textContent =
-        state.theme === "dark" ? "☼" : "☾";
-    }
-
-    if (el.themeToggle) {
-      el.themeToggle.setAttribute(
-        "aria-label",
-        state.theme === "dark"
-          ? "Switch to light theme"
-          : "Switch to dark theme"
-      );
-    }
+    el.themeToggle.setAttribute(
+      "aria-label",
+      state.theme === "dark"
+        ? "Switch to light theme"
+        : "Switch to dark theme"
+    );
 
     saveJSON(`${PREFIX}:theme`, state.theme);
   }
 
-  // --------------------------------------------------
-  // Event listeners
-  // --------------------------------------------------
+  // EVENT LISTENERS
 
   function bindEvents() {
-    if (el.themeToggle) {
-      el.themeToggle.addEventListener("click", () => {
-        applyTheme(
-          state.theme === "dark" ? "light" : "dark"
-        );
-      });
-    }
+    el.themeToggle.addEventListener("click", () => {
+      applyTheme(state.theme === "dark" ? "light" : "dark");
+    });
 
     el.search.addEventListener("input", renderClasses);
     el.subjectFilter.addEventListener("change", renderClasses);
     el.statusFilter.addEventListener("change", renderClasses);
 
-    // FIX: Use classListElement for the schedule element.
-    // Its own classList property is used only for CSS classes.
+    // FIXED: classListElement refers to the HTML schedule element.
+    // Its .classList property handles CSS classes.
     el.classListElement.classList.add("class-list-delegated");
 
     el.classListElement.addEventListener("click", (event) => {
@@ -863,29 +729,21 @@
       }
     });
 
-    if (el.completeButton) {
-      el.completeButton.addEventListener(
-        "click",
-        markSelectedClassComplete
-      );
-    }
+    el.completeButton.addEventListener(
+      "click",
+      markSelectedClassComplete
+    );
 
-    if (el.dailyCheckbox) {
-      el.dailyCheckbox.addEventListener("change", (event) => {
-        setDailyCompletion(event.target.checked);
-      });
-    }
+    el.dailyCheckbox.addEventListener("change", (event) => {
+      setDailyCompletion(event.target.checked);
+    });
 
-    if (el.resetDaily) {
-      el.resetDaily.addEventListener("click", () => {
-        setDailyCompletion(false);
-      });
-    }
+    el.resetDaily.addEventListener("click", () => {
+      setDailyCompletion(false);
+    });
   }
 
-  // --------------------------------------------------
-  // Start the application
-  // --------------------------------------------------
+  // INITIALIZE
 
   function initialise() {
     applyTheme(state.theme);
@@ -896,7 +754,7 @@
     updateClock();
     bindEvents();
 
-    // Refresh the clock, schedule availability, and indicators.
+    // Recheck the clock and class availability every 15 seconds.
     setInterval(updateClock, 15000);
   }
 
