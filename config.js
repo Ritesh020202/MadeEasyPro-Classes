@@ -24,7 +24,7 @@ window.APP_CONFIG = {
       subjectId: "dc",
       title: "Mathematics 12",
       description: "Calculus Class 03",
-      scheduledTime: "11:00",
+      scheduledTime: "23:38",
       vimeoId: "1237038856",
       available: true
     },
